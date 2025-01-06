@@ -114,3 +114,12 @@ public class CustomActEndpoint {
 ```
 Access the custom endpoint with:\
 http://localhost:8080/actuator/custom
+
+## Prometheus
+### Install prometheus with docker
+```shell
+docker pull prom/prometheus
+```
+```shell
+docker run -d --name=prometheus -p 9090:9090 -v {path_of_prometheus.yml_file}:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
+```

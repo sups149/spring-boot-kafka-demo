@@ -1,0 +1,25 @@
+global:
+  scrape_interval:     5s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 5s # Evaluate rules every 15 seconds.
+
+rule_files:
+#  - 'prometheus.rules.yml'
+
+scrape_configs:
+  - job_name: 'prometheus'
+    # Override the global default and scrape targets from this job every 5 seconds.
+    #scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: 'spring-boot-app'
+    metrics_path: '/actuator/prometheus'
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['host.docker.internal:8080']
+        labels:
+          group: 'test'
+
+    basic_auth:
+      username: 'admin'
+      password: 'mypass'
