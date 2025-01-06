@@ -81,3 +81,36 @@ management.endpoints.web.base-path=/
 management.endpoints.web.path-mapping.health=healthcheck
 ```
 
+## Custimized health monitor
+We need to implement HealthIndicator interface
+```java
+@Component
+public class KafkaHealthIndicator implements HealthIndicator {
+    @Override
+    public Health health() {
+        if(isKafkaHealthy()) {
+            return Health.up().withDetail("Kafka", "Healthy").build();
+        }
+        return Health.down().withDetail("Kafka", "Unhealthy").build();
+    }
+}
+```
+
+## Custom endpoint
+
+```java
+import java.util.HashMap;
+
+@Endpoint(id = "custom")
+@Component
+public class CustomActEndpoint {
+    @ReadOperation
+    public Map<String, String> customEndpoint(String id) {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        return map;
+    }
+}
+```
+Access the custom endpoint with:\
+http://localhost:8080/actuator/custom
